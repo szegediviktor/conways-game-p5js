@@ -1,6 +1,5 @@
+// Every cols has an rows array. (2DArray maker)
 const make2DArray = (cols, rows) => {
-    // Every cols has an rows array. (2DArray)
-
     let arr = new Array(cols);
     for (let i = 0; i < arr.length; i++) {
         arr[i] = new Array(rows);
@@ -11,14 +10,19 @@ const make2DArray = (cols, rows) => {
 let grid;
 let cols;
 let rows;
-const resulotion = 10;
+const resulotion = 5;
 
 function setup() {
-    createCanvas(600, 400);
+    // Add canvas
+    createCanvas(800, 600);
+    // calculate the cols and rows
     cols = width / resulotion;
     rows = height / resulotion;
 
+    // make the 2d array from the calculated cols and rows
     grid = make2DArray(cols, rows);
+
+    // randomize the first setup for the grid (value: 0 or 1)
     for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
             grid[i][j] = Math.round(Math.random(2));
@@ -27,7 +31,9 @@ function setup() {
 }
 
 function draw() {
+    // make more visible:
     background(0);
+
     for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
             let x = i * resulotion;
@@ -40,15 +46,14 @@ function draw() {
         }
     }
 
+    // we need a new grid where compute the new states
     let next = make2DArray(cols, rows);
 
     // compute next based on grid
-
     for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
             let state = grid[i][j];
-            // Count live neighbors!
-            let sum = 0;
+            // count living neighbors
             let neighbors = countNeighbors(grid, i, j);
 
             if (state == 0 && neighbors == 3) {
